@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class JenisPermohonan extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'jenis_permohonan';
+    protected $primaryKey = 'idJenisPermohonan';
+
+    protected $fillable = [
+        'jenisPermohonan',
+        'keterangan',
+    ];
+}
