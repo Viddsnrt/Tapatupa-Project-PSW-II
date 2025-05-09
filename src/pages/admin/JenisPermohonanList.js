@@ -57,81 +57,169 @@ const JenisPermohonanList = () => {
 
   return (
     <AdminLayout>
-      <div className="p-4">
-        <h2 className="text-xl font-bold mb-4">Manajemen Jenis Permohonan</h2>
+      <div className="forest-theme">
+        <style>{`
+          .forest-theme {
+            padding: 30px;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #e6ffe6;
+            min-height: 100vh;
+            color: #2f4f4f;
+          }
 
-        <form onSubmit={handleSubmit} className="bg-white shadow rounded p-4 mb-6 space-y-4 max-w-md">
-          <div>
-            <label className="block text-sm font-medium">Jenis Permohonan</label>
-            <input
-              type="text"
-              value={form.jenisPermohonan}
-              onChange={(e) => setForm({ ...form, jenisPermohonan: e.target.value })}
-              required
-              className="w-full border p-2 rounded mt-1"
-              placeholder="Contoh: Baru / Perpanjangan"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Keterangan</label>
-            <input
-              type="text"
-              value={form.keterangan}
-              onChange={(e) => setForm({ ...form, keterangan: e.target.value })}
-              className="w-full border p-2 rounded mt-1"
-              placeholder="Keterangan tambahan (opsional)"
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            {editingId ? 'Update' : 'Simpan'}
+          h2 {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #006400;
+          }
+
+          .form-container {
+            background-color: #d0f0c0;
+            padding: 20px;
+            border-left: 5px solid #228b22;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            max-width: 500px;
+          }
+
+          .form-container label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            color: #2e8b57;
+          }
+
+          .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #8fbc8f;
+            border-radius: 4px;
+            background-color: #f0fff0;
+          }
+
+          .form-container button {
+            margin-top: 15px;
+            background-color: #228b22;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+          }
+
+          .form-container button:hover {
+            background-color: #006400;
+          }
+
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f5fff5;
+            box-shadow: 0 0 8px rgba(34,139,34,0.2);
+          }
+
+          thead {
+            background-color: #2e8b57;
+            color: white;
+          }
+
+          th, td {
+            padding: 12px;
+            border: 1px solid #c1e1c1;
+            text-align: center;
+          }
+
+          .btn-edit {
+            background-color: #66bb6a;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+          }
+
+          .btn-edit:hover {
+            background-color: #388e3c;
+          }
+
+          .btn-delete {
+            background-color: #c62828;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+
+          .btn-delete:hover {
+            background-color: #a10000;
+          }
+
+          .no-data {
+            padding: 20px;
+            color: #6b8e23;
+            text-align: center;
+          }
+        `}</style>
+
+        <h2>🌲 Manajemen Jenis Permohonan</h2>
+
+        <form onSubmit={handleSubmit} className="form-container">
+          <label>Jenis Permohonan</label>
+          <input
+            type="text"
+            value={form.jenisPermohonan}
+            onChange={(e) => setForm({ ...form, jenisPermohonan: e.target.value })}
+            required
+            placeholder="Contoh: Permohonan Baru"
+          />
+
+          <label>Keterangan</label>
+          <input
+            type="text"
+            value={form.keterangan}
+            onChange={(e) => setForm({ ...form, keterangan: e.target.value })}
+            placeholder="Keterangan tambahan (opsional)"
+          />
+
+          <button type="submit">
+            {editingId ? 'Update Data' : 'Simpan'}
           </button>
         </form>
 
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full text-sm border">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border p-2">No</th>
-                <th className="border p-2">Jenis Permohonan</th>
-                <th className="border p-2">Keterangan</th>
-                <th className="border p-2">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item, index) => (
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Jenis Permohonan</th>
+              <th>Keterangan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.length > 0 ? (
+              data.map((item, index) => (
                 <tr key={item.idJenisPermohonan}>
-                  <td className="border p-2 text-center">{index + 1}</td>
-                  <td className="border p-2">{item.jenisPermohonan}</td>
-                  <td className="border p-2">{item.keterangan}</td>
-                  <td className="border p-2 text-center space-x-2">
-                    <button
-                      onClick={() => handleEdit(item)}
-                      className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item.idJenisPermohonan)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    >
-                      Hapus
-                    </button>
+                  <td>{index + 1}</td>
+                  <td>{item.jenisPermohonan}</td>
+                  <td>{item.keterangan}</td>
+                  <td>
+                    <button className="btn-edit" onClick={() => handleEdit(item)}>Edit</button>
+                    <button className="btn-delete" onClick={() => handleDelete(item.idJenisPermohonan)}>Hapus</button>
                   </td>
                 </tr>
-              ))}
-              {data.length === 0 && (
-                <tr>
-                  <td colSpan="4" className="text-center p-4 text-gray-500">
-                    Belum ada data
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="no-data">Tidak ada data tersedia</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </AdminLayout>
   );
